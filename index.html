@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeebVault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+          <div class="title">
+            <h1>WeebVault</h1>
+          </div>
+          <div class="nav">
+            <nav>
+              <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#recommendations">Recommendations</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      
+  <main>
+    <section id="home" class="hero">
+      <div class="container">
+        <h2>Discover Your Next Favorite Anime</h2>
+        <input type="text" id="searchBar" placeholder="Search anime...">
+        <button id="searchButton">Search</button>
+      </div>
+    </section>
+
+    <section id="recommendations" class="anime-list">
+      <div class="container">
+        <h2>Popular Anime</h2>
+        <div class="anime-grid">
+          <!-- Anime Card Example -->
+        
+          <div class="anime-card">
+            <img src="anime-image-url" alt="Anime Title">
+            <h3>Anime Title</h3>
+            <p>Short Description</p>
+            <button class="more-details-btn">Show Details</button>
+            
+            <!-- Hidden div with more details (initially hidden) -->
+            <div class="anime-details">
+              <p><strong>Rating:</strong> 8.5</p>
+              <p><strong>Genres:</strong> Action, Adventure</p>
+              <p><strong>Episodes:</strong> 24</p>
+              <p><strong>Status:</strong> Ongoing</p>
+            </div>
+          </div>
+          <!-- Add more anime cards here as needed -->
+        </div>       
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 WeebVault. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

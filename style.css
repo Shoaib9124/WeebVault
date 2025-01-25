@@ -1,0 +1,175 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5dc; 
+    color: #333; 
+    line-height: 1.6;
+}
+
+/* Header Section Styling */
+header {
+    background-color: #000; /* Black header background */
+    color: #fff; /* White text */
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #1abc9c; /* Light cyan on hover */
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('anime-background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    padding: 5rem 0;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero input[type="text"] {
+    padding: 0.8rem;
+    font-size: 1rem;
+    width: 50%;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.hero button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background-color: #1abc9c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: background-color 0.3s;
+}
+
+.hero button:hover {
+    background-color: #16a085; /* Darker shade on hover */
+}
+
+/* Anime List Section */
+.anime-list {
+    background-color: #ecf0f1; /* Light gray background */
+    padding: 2rem 0;
+}
+
+.anime-list h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Anime Grid */
+.anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid layout */
+    gap: 1.5rem;
+    padding: 0 1rem;
+}
+
+/* Individual Anime Card */
+.anime-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.anime-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.anime-card h3 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.anime-card p {
+    font-size: 0.9rem;
+    color: #777;
+    padding: 0 0.5rem;
+}
+
+/* Show Details Button */
+.anime-card button {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.anime-card button:hover {
+    background-color: #16a085; /* Darker shade on hover */
+}
+
+/* Anime Details - Hidden by default */
+.anime-card .anime-details {
+    display: none;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    margin-top: 1rem;
+    border-radius: 5px;
+}
+
+/* Show anime details when 'show' class is added */
+.anime-card .anime-details.show {
+    display: block;
+}
+
+/* Footer Section Styling */
+footer {
+    background-color: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+footer p {
+    font-size: 0.9rem;
+}
