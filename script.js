@@ -2,24 +2,36 @@ const animeGrid = document.querySelector('.anime-grid');
 const searchBar = document.getElementById('searchBar');
 const searchButton = document.getElementById('searchButton');
 
+// Hide anime-grid by default
+animeGrid.style.display = 'none';
+
+// Fetch anime data from the Jikan API
 async function fetchAnime(query) {
-  const response = await fetch(`https://api.jikan.moe/v4/anime?q=${query}`);
-  const data = await response.json();
-  displayAnime(data.data);
+  try {
+    const response = await fetch(`https://api.jikan.moe/v4/anime?q=${query}`);
+    const data = await response.json();
+    displayAnime(data.data);
+  } catch (error) {
+    console.error('Error fetching anime:', error);
+    animeGrid.style.display = 'block'; // Show container to display the error message
+    animeGrid.innerHTML = `<p>Something went wrong. Please try again later.</p>`;
+  }
 }
 
+// Display anime data on the page
 function displayAnime(animeList) {
   animeGrid.innerHTML = ''; // Clear previous results
-  
+
   // Check if animeList is empty
   if (animeList.length === 0) {
+    animeGrid.style.display = 'block'; // Show container for no results message
     const noResultsMessage = document.createElement('p');
     noResultsMessage.textContent = 'Sorry, try something else.';
     animeGrid.appendChild(noResultsMessage);
-    return; // Exit the function early if no results are found
+    return;
   }
-  
-  // Loop through the anime list and display the results
+
+  animeGrid.style.display = 'grid'; // Make anime-grid visible
   animeList.forEach(anime => {
     const animeCard = document.createElement('div');
     animeCard.classList.add('anime-card');
@@ -35,45 +47,35 @@ function displayAnime(animeList) {
         <p><strong>Status:</strong> ${anime.status ? anime.status : 'N/A'}</p>
       </div>
     `;
-    
-    // Add event listener to toggle details
-    animeCard.querySelector('.more-details-btn').addEventListener('click', () => {
+    animeGrid.appendChild(animeCard);
+  });
+
+  // Add event listeners to "Show Details" buttons
+  addDetailToggleListeners();
+}
+
+// Toggle visibility of anime details
+function addDetailToggleListeners() {
+  const buttons = animeGrid.querySelectorAll('.more-details-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const animeCard = button.closest('.anime-card');
       const details = animeCard.querySelector('.anime-details');
       details.classList.toggle('show');
-      const btnText = details.classList.contains('show') ? 'Hide Details' : 'Show Details';
-      animeCard.querySelector('.more-details-btn').textContent = btnText;
+      button.textContent = details.classList.contains('show') ? 'Hide Details' : 'Show Details';
     });
-    
-    animeGrid.appendChild(animeCard);
   });
 }
 
+// Handle search button click
 searchButton.addEventListener('click', () => {
-  const query = searchBar.value;
-  fetchAnime(query);
+  const query = searchBar.value.trim();
 
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.more-details-btn');
-  
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        const animeCard = button.closest('.anime-card');  // Get the closest parent card
-        const details = animeCard.querySelector('.anime-details');  // Get the details section
-        
-        // Toggle the visibility of the details section
-        details.classList.toggle('show');
-
-        if (details.classList.contains('show')) {
-            button.textContent = 'Hide Details';
-          } else {
-            button.textContent = 'Show Details';
-          }
-
-      });
-    });
-  });
-  
-
-
-
+  if (query) {
+    fetchAnime(query);
+  } else {
+    animeGrid.style.display = 'block'; // Show container for the empty search message
+    animeGrid.innerHTML = '<p>Please enter a search term.</p>';
+  }
 });
