@@ -1,6 +1,7 @@
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 interface AnimeResult {
   mal_id: number;
@@ -14,10 +15,12 @@ interface AnimeResult {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<AnimeResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -45,6 +48,12 @@ export default function Navbar() {
       setSearchResults([]);
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsProfileMenuOpen(false);
+    navigate('/');
   };
 
   return (
@@ -99,6 +108,60 @@ export default function Navbar() {
               <Link to="/top-anime" className="text-white hover:text-indigo-200 transition-colors duration-300">Top Anime</Link>
               <Link to="/seasonal" className="text-white hover:text-indigo-200 transition-colors duration-300">Seasonal</Link>
               <Link to="/genres" className="text-white hover:text-indigo-200 transition-colors duration-300">Genres</Link>
+              
+              {isAuthenticated ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                    className="flex items-center text-white hover:text-indigo-200 transition-colors duration-300"
+                  >
+                    <span className="mr-1">{user?.username}</span>
+                    <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center">
+                      <User className="h-4 w-4 text-white" />
+                    </div>
+                  </button>
+                  
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 animate-fadeIn">
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                        onClick={() => setIsProfileMenuOpen(false)}
+                      >
+                        Your Profile
+                      </Link>
+                      <Link
+                        to="/watchlist"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                        onClick={() => setIsProfileMenuOpen(false)}
+                      >
+                        Watchlist
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
+                      >
+                        Sign out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex space-x-2">
+                  <Link
+                    to="/signin"
+                    className="text-white hover:text-indigo-200 transition-colors duration-300"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="bg-white text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-50 transition-colors duration-300"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 
@@ -133,6 +196,29 @@ export default function Navbar() {
             <Link to="/top-anime" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Top Anime</Link>
             <Link to="/seasonal" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Seasonal</Link>
             <Link to="/genres" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Genres</Link>
+            
+            {isAuthenticated ? (
+              <>
+                <div className="border-t border-indigo-500 my-2"></div>
+                <div className="px-3 py-2 text-white font-medium">
+                  Signed in as {user?.username}
+                </div>
+                <Link to="/profile" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Your Profile</Link>
+                <Link to="/watchlist" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Watchlist</Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="border-t border-indigo-500 my-2"></div>
+                <Link to="/signin" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Sign in</Link>
+                <Link to="/signup" className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-500 transition-colors duration-300">Sign up</Link>
+              </>
+            )}
           </div>
         </div>
       )}
